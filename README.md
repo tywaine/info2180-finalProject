@@ -6,6 +6,6 @@ Group Members:
 
 1. Tywaine Peters
 2. Maurice Wright
-3. 
+3. Jelena Smith
 4.
 5.

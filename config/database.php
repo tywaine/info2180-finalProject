@@ -1,20 +1,26 @@
 <?php
 
-// Yours may differ so change it as you seem fit...
+// Database connection settings
 $db_server = "localhost";
 $db_username = "root";
-$db_password = "root";
+$db_password = "";  // Default XAMPP password is empty
 $db_name = "dolphin_crm";
 
-try{
+try {
+    // Establish connection
     $conn = mysqli_connect($db_server, $db_username, $db_password, $db_name);
 
-    if(!$conn){
-        echo "Connection failed";
+    // Check if connection is successful
+    if (!$conn) {
+        // Output the error message if connection fails
+        throw new mysqli_sql_exception("Connection failed: " . mysqli_connect_error());
     }
 
-    //Comment it out if you need to
-    //mysqli_close($conn);
+    // Connection was successful, you can use $conn to query the database
+    // You can close the connection here if necessary, but it's not required for a simple script
+    // mysqli_close($conn);
+
 } catch (mysqli_sql_exception $ex) {
-    echo "Could not connect to database.\n";
+    // Display detailed error message
+    echo "Could not connect to the database. Error: " . $ex->getMessage();
 }
