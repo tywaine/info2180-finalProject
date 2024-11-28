@@ -20,12 +20,12 @@ class User{
         $this->role = $role;
         $this->created_at = $created_at;
 
-        if (!self::userExists($id)) {
+        if (!self::userIdExists($id)) {
             self::$users[$id] = $this;
         }
     }
 
-    public static function userExists($id) {
+    public static function userIdExists($id) {
         return isset(self::$users[$id]);
     }
 
@@ -120,6 +120,38 @@ class User{
         }
     }
 
+    public static function isValidCredentials($email, $password) {
+        $query = "SELECT * FROM users WHERE email = ?";
+
+        $stmt = mysqli_prepare(self::$conn, $query);
+        mysqli_stmt_bind_param($stmt, 's', $email);
+        mysqli_stmt_execute($stmt);
+
+        $result = mysqli_stmt_get_result($stmt);
+
+        if (mysqli_num_rows($result) > 0) {
+            $user = mysqli_fetch_assoc($result);
+
+            if (password_verify($password, $user['password'])) {
+                self::loadUsers();
+
+                return new User(
+                    $user['id'],
+                    $user['firstname'],
+                    $user['lastname'],
+                    $user['email'],
+                    $user['role'],
+                    $user['created_at']
+                );
+            }
+            else{
+                return -1;
+            }
+        }
+
+        return false;
+    }
+
     public static function addUser($firstname, $lastname, $email, $role, $password) {
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
@@ -146,4 +178,5 @@ class User{
 ?>
 
 <?php
+
 ?>
