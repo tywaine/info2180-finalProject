@@ -1,4 +1,6 @@
 <?php
+// Email = admin@project2.com
+// Password = password123
 session_start();
 include_once '../config/database.php';
 include_once '../models/user.php';
@@ -6,7 +8,6 @@ use app\models\User;
 User::setConnection($conn);
 
 $error_message = '';
-
 if($_SERVER["REQUEST_METHOD"] == "POST"){
     $email = filter_input(INPUT_POST, "email", FILTER_VALIDATE_EMAIL);
     $password = filter_input(INPUT_POST, "password", FILTER_SANITIZE_SPECIAL_CHARS);
@@ -32,48 +33,48 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 
             session_regenerate_id(true);
             User::loadUsers();
-            header('Location: dashboard.php');
+            header('Location: ../index.php');
             exit;
         }
         else {
-            echo "Invalid credentials.";
+            $error_message = "Invalid credentials";
         }
     }
 }
-
 ?>
-
-<!--Fix this up for me Maurice -->
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Dolphin CRM</title>
-    <link rel="stylesheet" href="../assets/css/style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="../assets/css/login.css">
 </head>
 <body>
-    <header>
-        <?php include_once '../includes/header.php'; ?>
-    </header>
-    <form action="<?php htmlspecialchars($_SERVER['PHP_SELF']) ?>" method="post">
-        <h2>Login</h2>
-        <label for="email"></label><br>
-        <input id="email" type="email" name="email" placeholder="Email address"><br>
-        <label for="password"></label><br>
-        <input id="password" type="password" name="password" placeholder="Password"><br><br>
-        <input type="submit" name="login" value="Login"><br>
-        <?php if ($error_message): ?>
-            <div class="error-message"><?php echo $error_message; ?></div>
-        <?php endif; ?>
-    </form>
+<div class="main">
+    <div class="top">
+        <img src="../assets/images/dolphin.jpg" alt="">
+        <p>Dolphin CRM</p>
+    </div>
 
-    <?php include_once '../includes/footer.php'; ?>
-    <script src="../assets/js/main.js"></script>
+    <div class="login">
+        <form class="login-form" method="POST" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>">
+            <h1>Login</h1>
+            <div class="form-content">
+                <input type="email" id="email" name="email" placeholder="Email address" required>
+            </div>
+            <div class="form-content">
+                <input type="password" id="password" name="password" placeholder="Password" required>
+            </div>
+            <button type="submit">Login</button>
+            <?php if ($error_message): ?>
+                <div class="error-message"><?php echo $error_message; ?></div>
+            <?php endif; ?>
+            <p class="text">Copyright &copy; 2022 Dolphin CRM</p>
+        </form>
+    </div>
+</div>
 </body>
-
 </html>
 
 <?php

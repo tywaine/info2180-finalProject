@@ -1,9 +1,9 @@
 <?php
 
-// Database connection settings
+// Database connection settings (Change this to match your credentials
 $db_server = "localhost";
 $db_username = "root";
-$db_password = "";  // Default XAMPP password is empty
+$db_password = "root";
 $db_name = "dolphin_crm";
 
 try {

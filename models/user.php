@@ -1,6 +1,5 @@
 <?php
 namespace app\models;
-include_once('../config/database.php');
 
 class User{
     private static $conn;
@@ -143,9 +142,6 @@ class User{
                     $user['role'],
                     $user['created_at']
                 );
-            }
-            else{
-                return -1;
             }
         }
 
