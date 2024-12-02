@@ -1,0 +1,59 @@
+
+
+/* Header Styles */
+
+/* Main container with header and sidebar */
+.main-container {
+    display: flex;
+    flex: 1;
+    margin-top: 80px; /* Add space for the header */
+}
+
+/* Sidebar Styles */
+.sidebar {
+    width: 200px; /* Adjust sidebar width */
+    background-color: grey;
+    padding-top: 20px;
+    position: fixed; /* Fix it to the left side */
+    top: 50px; /* Move the sidebar below the header */
+    left: 0;
+    height: calc(100% - 80px); /* Full height minus the header's height */
+    display: flex;
+    flex-direction: column;
+    gap: 20px; /* Spacing between links */
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.nav-link {
+    color: white;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    padding: 10px 15px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.nav-link:hover {
+    background-color: #444;
+    transform: translateX(5px);  /* Slightly slide to the right on hover */
+}
+
+.nav-link img.nav-icon {
+    width: 25px; /* Adjust icon size */
+    height: 25px;
+    margin-right: 10px;  /* Space between icon and text */
+}
+
+.nav-link span {
+    font-size: 14px;
+    font-weight: bold;
+    color: black;
+}
+
+/* Main content area */
+.content {
+    margin-left: 220px; /* Offset to the right of the sidebar */
+    padding: 20px;
+    width: calc(100% - 220px); /* Fill the remaining space */
+}

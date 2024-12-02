@@ -32,8 +32,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
             $_SESSION['role'] = $user->getRole();
 
             session_regenerate_id(true);
-            User::loadUsers();
-            header('Location: ../index.php');
+            header('Location: ../');
             exit;
         }
         else {
@@ -41,6 +40,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         }
     }
 }
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -52,30 +52,29 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 </head>
 <body>
 <div class="main">
-    <div class="top">
-        <img src="../assets/images/dolphin.jpg" alt="">
-        <p>Dolphin CRM</p>
-    </div>
+    <?php include '../includes/header.php'; ?>
 
     <div class="login">
         <form class="login-form" method="POST" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>">
             <h1>Login</h1>
             <div class="form-content">
-                <input type="email" id="email" name="email" placeholder="Email address" required>
+                <input type="email" id="email" name="email" placeholder="Email address" required
+                       value="<?php echo isset($_POST['email']) ? htmlspecialchars($_POST['email']) : ''; ?>" />
             </div>
             <div class="form-content">
-                <input type="password" id="password" name="password" placeholder="Password" required>
+                <input type="password" id="password" name="password" placeholder="Password" required />
             </div>
             <button type="submit">Login</button>
             <?php if ($error_message): ?>
                 <div class="error-message"><?php echo $error_message; ?></div>
             <?php endif; ?>
-            <p class="text">Copyright &copy; 2022 Dolphin CRM</p>
+            <p class="text">Copyright &copy; <?php echo date("Y"); ?> Dolphin CRM</p>
         </form>
     </div>
 </div>
 </body>
 </html>
+
 
 <?php
 
