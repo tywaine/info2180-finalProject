@@ -52,10 +52,10 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
 </head>
 <body>
 <div class="main">
-    <div class="top">
-        <img src="../assets/images/dolphin.jpg" alt="">
-        <p>Dolphin CRM</p>
-    </div>
+    <header>
+        <div class="dolpin">🐬 Dolphin CRM</div>
+    </header>
+    <br><br><br><br><br>
 
     <div class="login">
         <form class="login-form" method="POST" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>">

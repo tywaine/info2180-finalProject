@@ -5,7 +5,6 @@
 }
 
 header{
-     
     font-size: 15px;
     font-family: Arial, Helvetica, sans-serif;
     background-color: #15223b;
@@ -13,6 +12,7 @@ header{
     padding: 25px;
     margin-top: 0;
 }
+
 .sidebar{
     display: flex;
     width :250px;
@@ -28,7 +28,6 @@ header{
     font-family: Arial, Helvetica, sans-serif;
 }
 
-
 .material-symbols-outlined {
   vertical-align: middle;
   font-size: 24px;
@@ -39,17 +38,17 @@ header{
     list-style: none;
     padding: 0;
     margin: 10px;
-    
+
 }
+
 body{
    font-family: Arial, Helvetica, sans-serif;
    background-color: #f1f1f1;
    color: black;
-   
+
 }
 
 sect{
-
     display: flex;
     margin-top: 80px;
     flex-grow: 1;
@@ -97,7 +96,7 @@ hr{
 
 .addbtn{
 
-    
+
     padding: 5px 10px;
     background-color:#6F00FF;
     color: white;
@@ -155,7 +154,7 @@ hr{
     text-align: left;
     border-bottom: 1px solid #dfdfdf;
     color: black;
-    
+
 }
 .name{
     font-weight: bold;

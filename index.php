@@ -26,30 +26,21 @@ User::loadUsers();
 <body>
     <header>
         <div class="dolpin">🐬 Dolphin CRM</div>
-
     </header>
-    <aside class= "sidebar">
+    <aside class="sidebar">
         <ul>
-            <li > <span class="material-symbols-outlined">
-                    home
-                    </span>Home</li>
-            <li ><span class="material-symbols-outlined">
-                    account_circle
-                    </span>New Contact</li>
-            <li > <span class="material-symbols-outlined">
-                    group
-                    </span>Users</li>
+            <!-- Remove the href="#" and just use data-target to load the content dynamically -->
+            <li><a href="javascript:void(0)" class="sidebar-link" data-target="home.php"><span class="material-symbols-outlined">home</span>Home</a></li>
+            <li><a href="javascript:void(0)" class="sidebar-link" data-target="views/newContact.php"><span class="material-symbols-outlined">account_circle</span>New Contact</a></li>
+            <li><a href="javascript:void(0)" class="sidebar-link" data-target="views/viewUsers.php"><span class="material-symbols-outlined">group</span>Users</a></li>
             <hr>
-            <li ><span class="material-symbols-outlined">
-                    login
-                    </span>Logout</li>
+            <li><a href="javascript:void(0)" class="sidebar-link" data-target="views/logout.php"><span class="material-symbols-outlined">login</span>Logout</a></li>
         </ul>
     </aside>
 
     <!-- Main Content -->
     <main class="content" id="mainContent">
         <!-- The Main Content is dynamically shown here -->
-
     </main>
 <script src="assets/js/main.js" type="text/javascript"></script>
 </body>
