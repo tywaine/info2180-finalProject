@@ -20,38 +20,37 @@ User::loadUsers();
     <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Home</title>
-    <link rel="stylesheet" href="assets/css/dashboard.css">
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Symbols+Outlined" />
 </head>
 <body>
-<?php include 'includes/header.php'; ?>
+    <header>
+        <div class="dolpin">🐬 Dolphin CRM</div>
 
-<div class="main-container">
-    <!-- Sidebar Navigation -->
-    <nav class="sidebar">
-        <a class="nav-link" id="homeBtn">
-            <img src="assets/images/home.png" alt="Home" class="nav-icon">
-            <span>Home</span>
-        </a>
-        <a class="nav-link" id="newContactBtn">
-            <img src="assets/images/contact.jpeg" alt="New Contact" class="nav-icon">
-            <span>New Contact</span>
-        </a>
-        <a class="nav-link" id="usersBtn">
-            <img src="assets/images/users.jpg" alt="Users" class="nav-icon">
-            <span>Users</span>
-        </a>
-        <a href="views/logout.php" class="nav-link">
-            <img src="assets/images/logout.png" alt="Logout" class="nav-icon">
-            <span>Logout</span>
-        </a>
-    </nav>
+    </header>
+    <aside class= "sidebar">
+        <ul>
+            <li > <span class="material-symbols-outlined">
+                    home
+                    </span>Home</li>
+            <li ><span class="material-symbols-outlined">
+                    account_circle
+                    </span>New Contact</li>
+            <li > <span class="material-symbols-outlined">
+                    group
+                    </span>Users</li>
+            <hr>
+            <li ><span class="material-symbols-outlined">
+                    login
+                    </span>Logout</li>
+        </ul>
+    </aside>
 
     <!-- Main Content -->
     <main class="content" id="mainContent">
         <!-- The Main Content is dynamically shown here -->
 
     </main>
-</div>
 <script src="assets/js/main.js" type="text/javascript"></script>
 </body>
 </html>
