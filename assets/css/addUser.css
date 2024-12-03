@@ -11,39 +11,39 @@ body {
 }
 
 .main-add {
-    margin-left: 250px; /* Align with the sidebar's width */
-    padding: 20px; /* Match the padding of the main content */
-    background-color: #f1f1f1; /* Match the body background */
+    margin-left: 250px;
+    padding: 20px;
+    background-color: #f1f1f1;
     height: auto;
-    min-height: calc(100vh - 70px); /* Adjust to fit below the header */
+    min-height: calc(100vh - 70px);
 }
 
 .login-add {
     background-color: white;
     border-radius: 8px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    padding: 40px; /* Add more padding for a balanced look */
+    padding: 40px;
     max-width: 100%;
     margin: auto;
     min-height: 500px;
-    display: flex; /* Use flexbox for equal spacing */
+    display: flex;
     flex-direction: column;
-    justify-content: space-between; /* Space out the content evenly */
+    justify-content: space-between;
 }
 
 form {
     display: flex;
     flex-direction: column;
-    gap: 20px; /* Increase spacing between form fields */
-    flex-grow: 1; /* Make the form grow to fill available space */
-    justify-content: space-around; /* Distribute the form elements evenly */
+    gap: 20px;
+    flex-grow: 1;
+    justify-content: space-around;
 }
 
 h1 {
     margin-bottom: 20px;
     font-size: 24px;
-    color: #15223b; /* Use the primary color from the header */
-    text-align: left; /* Align the heading to the left */
+    color: #15223b;
+    text-align: left;
 }
 
 label {
@@ -63,14 +63,14 @@ input, select {
 }
 
 input:focus, select:focus {
-    border-color: #6F00FF; /* Match the button hover color */
+    border-color: #6F00FF;
     outline: none;
 }
 
 button {
     align-self: flex-end;
     padding: 10px 20px;
-    background-color: #6F00FF; /* Match the Add button color */
+    background-color: #6F00FF;
     color: white;
     border: none;
     border-radius: 5px;
@@ -80,7 +80,7 @@ button {
 }
 
 button:hover {
-    background-color: #15223b; /* Match the button hover color */
+    background-color: #15223b;
 }
 
 .error-message {
@@ -99,7 +99,6 @@ button:hover {
 .user-content-add {
     flex: 1;
 }
-
 
 .user-content-button-add {
     text-align: right;
