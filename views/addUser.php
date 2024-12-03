@@ -54,8 +54,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <body>
     <div class="main-add">
         <div class="right-add">
+            <br><br>
+            <h1>New User</h1>
             <div class="login-add">
-                <h1>New User</h1>
+
                 <form id="userForm" class="user-form-add" method="POST" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>">
 
                     <div class="info-add">

@@ -59,7 +59,6 @@ body{
     font-family: Arial, Helvetica, sans-serif;
     background-color: #f1f1f1;
     color: black;
-
 }
 
 sect{
@@ -72,13 +71,10 @@ sect{
     flex-grow: 1;
     margin-left: 250px;
     padding: 20px;
-
 }
 
 li{
     margin-bottom: 15px;
-
-
 }
 
 hr{
@@ -110,7 +106,6 @@ hr{
     border-radius: 5px;
     font-size: 15px;
     cursor: pointer;
-
 }
 
 .addbtn:hover{
@@ -121,8 +116,6 @@ hr{
     background-color:white;
     width:100%;
     padding: 15px;
-
-
 }
 
 .user-table{
@@ -150,7 +143,6 @@ hr{
     text-align: left;
     border-bottom: 1px solid #dfdfdf;
     color: black;
-
 }
 .name{
     font-weight: bold;

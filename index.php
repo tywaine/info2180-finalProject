@@ -29,7 +29,6 @@ User::loadUsers();
     </header>
     <aside class="sidebar">
         <ul>
-            <!-- Remove the href="#" and just use data-target to load the content dynamically -->
             <li><a href="javascript:void(0)" class="sidebar-link" data-target="views/home.php"><span class="material-symbols-outlined">home</span>Home</a></li>
             <li><a href="javascript:void(0)" class="sidebar-link" data-target="views/newContact.php"><span class="material-symbols-outlined">account_circle</span>New Contact</a></li>
             <li><a href="javascript:void(0)" class="sidebar-link" data-target="views/viewUsers.php"><span class="material-symbols-outlined">group</span>Users</a></li>
