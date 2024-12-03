@@ -14,29 +14,6 @@ body {
     width: 100%;
 }
 
-.top-add{
-    background: rgb(6, 6, 111);
-    width: 100%;
-    height: 10%;
-    color: white;
-    font-size: 1rem;
-
-    display: flex;
-}
-
-.top-add img{
-    margin: auto 4px auto 16px;
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-}
-
-.left-add img{
-    width: 20px;
-    height: 20px;
-    border-radius: 50%;
-}
-
 .login-add{
     width: 90%;
     height: 300px;

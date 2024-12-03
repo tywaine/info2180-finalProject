@@ -180,6 +180,20 @@ class User{
 
         return false;
     }
+
+    public static function emailExist($email) {
+        $query = "SELECT * FROM users WHERE email = ?";
+        $stmt = mysqli_prepare(self::$conn, $query);
+        mysqli_stmt_bind_param($stmt, 's', $email);
+        mysqli_stmt_execute($stmt);
+        $result = mysqli_stmt_get_result($stmt);
+
+        if (mysqli_num_rows($result) > 0) {
+            return true;
+        }
+
+        return false;
+    }
 }
 ?>
 
