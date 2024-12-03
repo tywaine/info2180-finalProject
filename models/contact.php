@@ -40,7 +40,7 @@ class Contact {
         self::$conn = $conn;
     }
 
-    public static function contactExists($id) {
+    public static function contactExists($id): bool{
         return isset(self::$contacts[$id]);
     }
 
@@ -130,7 +130,7 @@ class Contact {
         }
     }
 
-    public static function addContact($title, $firstname, $lastname, $email, $telephone, $company, $type, $assigned_to, $created_by) {
+    public static function addContact($title, $firstname, $lastname, $email, $telephone, $company, $type, $assigned_to, $created_by): bool{
         $query = "INSERT INTO Contacts (title, firstname, lastname, email, telephone, company, type, assigned_to, created_by, created_at, updated_at)
                   VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, NOW(), NOW())";
 
@@ -145,7 +145,7 @@ class Contact {
         return mysqli_stmt_execute($stmt);
     }
 
-    public static function updateContact($id, $type, $assigned_to, $updated_at) {
+    public static function updateContact($id, $type, $assigned_to, $updated_at): bool{
         $query = "UPDATE Contacts SET type = ?, assigned_to = ?, updated_at = ? WHERE id = ?";
         $stmt = mysqli_prepare(self::$conn, $query);
         mysqli_stmt_bind_param($stmt, 'sssi', $type, $assigned_to, $updated_at, $id);
@@ -155,7 +155,7 @@ class Contact {
 
     // NEW METHODS FOR NOTES FUNCTIONALITY
 
-    public static function getNotesByContactId($contact_id) {
+    public static function getNotesByContactId($contact_id): array{
         $query = "SELECT * FROM Notes WHERE contact_id = ?";
         $stmt = mysqli_prepare(self::$conn, $query);
         mysqli_stmt_bind_param($stmt, 'i', $contact_id);
@@ -175,7 +175,7 @@ class Contact {
         return $notes;
     }
 
-    public static function addNoteToContact($contact_id, $author, $note) {
+    public static function addNoteToContact($contact_id, $author, $note): bool{
         $query = "INSERT INTO Notes (contact_id, author, note, created_at)
                   VALUES (?, ?, ?, NOW())";
 
@@ -188,6 +188,20 @@ class Contact {
         mysqli_stmt_bind_param($stmt, 'iss', $contact_id, $author, $note);
 
         return mysqli_stmt_execute($stmt);
+    }
+
+    public static function emailExist($email): bool{
+        $query = "SELECT * FROM Contacts WHERE email = ?";
+        $stmt = mysqli_prepare(self::$conn, $query);
+        mysqli_stmt_bind_param($stmt, 's', $email);
+        mysqli_stmt_execute($stmt);
+        $result = mysqli_stmt_get_result($stmt);
+
+        if (mysqli_num_rows($result) > 0) {
+            return true;
+        }
+
+        return false;
     }
 }
 ?>

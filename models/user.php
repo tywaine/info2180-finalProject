@@ -181,7 +181,7 @@ class User{
         return false;
     }
 
-    public static function emailExist($email) {
+    public static function emailExist($email): bool{
         $query = "SELECT * FROM users WHERE email = ?";
         $stmt = mysqli_prepare(self::$conn, $query);
         mysqli_stmt_bind_param($stmt, 's', $email);

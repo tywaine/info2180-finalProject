@@ -9,8 +9,6 @@ if (!isset($_SESSION['user_id'])) {
     exit();
 }
 
-User::setConnection($conn);
-User::loadUsers();
 ?>
 
 <!doctype html>

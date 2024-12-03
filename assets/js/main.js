@@ -25,6 +25,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
+    // If you want to experiment how you view looks on the main page, Change this.
     loadContent('views/home.php');
 });
 
