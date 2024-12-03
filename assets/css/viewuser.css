@@ -1,4 +1,5 @@
-*{
+/* View Users */
+* {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
@@ -28,10 +29,22 @@ header{
     font-family: Arial, Helvetica, sans-serif;
 }
 
+.sidebar a {
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    align-items: center;
+}
+
+.sidebar a:hover {
+    background-color: #f0f0f0;
+    color: #333;
+}
+
 .material-symbols-outlined {
-  vertical-align: middle;
-  font-size: 24px;
-  margin-right: 10px;
+    vertical-align: middle;
+    font-size: 24px;
+    margin-right: 10px;
 }
 
 .sidebar ul{
@@ -39,12 +52,13 @@ header{
     padding: 0;
     margin: 10px;
 
+
 }
 
 body{
-   font-family: Arial, Helvetica, sans-serif;
-   background-color: #f1f1f1;
-   color: black;
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #f1f1f1;
+    color: black;
 
 }
 
@@ -62,7 +76,7 @@ sect{
 }
 
 li{
-margin-bottom: 15px;
+    margin-bottom: 15px;
 
 
 }
@@ -77,9 +91,6 @@ hr{
     font-size:32px;
     margin: 0;
     font-family: Arial, Helvetica, sans-serif;
-
-
-
 }
 
 .tableHeading{
@@ -91,12 +102,7 @@ hr{
 
 }
 
-
-
-
 .addbtn{
-
-
     padding: 5px 10px;
     background-color:#6F00FF;
     color: white;
@@ -110,8 +116,6 @@ hr{
 .addbtn:hover{
     background-color:#15223b ;
 }
-
-
 
 .tableincontainer{
     background-color:white;
@@ -129,9 +133,6 @@ hr{
     box-shadow: 0 2px 10px rgba(0,0,0,0.1);
 }
 
-
-
-
 .user-table th{
     background-color:rgba(236, 236, 236, 0.664);
 }
@@ -141,12 +142,7 @@ hr{
     color: #f1f1f1;
     font-size: 15px;
     font-family: Arial, Helvetica, sans-serif;
-
-
 }
-
-
-
 
 .user-table th,
 .user-table td{
@@ -159,11 +155,4 @@ hr{
 .name{
     font-weight: bold;
 }
-
-
-
-
-
-
-
-
+/* View Users */

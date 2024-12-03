@@ -78,6 +78,16 @@ class User{
         $this->created_at = $created_at;
     }
 
+    public static function validatePassword($password) {
+        $pattern = '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}$/';
+
+        if (preg_match($pattern, $password)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
     public static function setConnection($conn){
         self::$conn = $conn;
     }

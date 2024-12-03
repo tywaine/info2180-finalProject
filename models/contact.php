@@ -1,6 +1,5 @@
 <?php
 namespace app\models;
-include_once('../config/database.php');
 
 class Contact {
     private static $conn;

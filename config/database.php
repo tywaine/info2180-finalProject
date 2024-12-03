@@ -2,8 +2,8 @@
 
 // Database connection settings (Change this to match your credentials
 $db_server = "localhost";
-$db_user = "root";
-$db_pass = "";
+$db_username = "root";
+$db_password = "root";
 $db_name = "dolphin_crm";
 
 try {

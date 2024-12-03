@@ -1,3 +1,15 @@
+<?php
+include_once('../../config/database.php');
+require_once('../../models/contact.php');
+use app\models\Contact;
+
+// Mock data for now (replace with real data when database is connected) // Replace with the actual contact ID from the request
+$mockContact = new Contact(1, 'Dr.', 'Jelena', 'Smith', 'jelenaannalise@gmail.com', '8765959883', 'FSC', 'Sales Lead', 2, 1, '2024-12-02 14:00:00', '2024-12-02 14:00:00');
+$notes
+// Replace $mockContact with actual loaded contact when database is connected:
+// $contact = Contact::getContactById($contactId);
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,18 +18,6 @@
     <title>Contact Details</title>
 </head>
 <body>
-    <?php
-    require_once('../../models/contact.php');
-    use app\models\Contact;
-
-    // Mock data for now (replace with real data when database is connected)
-    $contactId = $_GET['id'] ?? 1; // Replace with the actual contact ID from the request
-    $mockContact = new Contact($contactId, 'Dr.', 'Jelena', 'Smith', 'jelenaannalise@gmail.com', '8765959883', 'FSC', 'Sales Lead', 2, 1, '2024-12-02 14:00:00', '2024-12-02 14:00:00');
-
-    // Replace $mockContact with actual loaded contact when database is connected:
-    // $contact = Contact::getContactById($contactId);
-    ?>
-
     <h1>Contact Details</h1>
     <p><strong>Title:</strong> <?php echo $mockContact->getTitle(); ?></p>
     <p><strong>Full Name:</strong> <?php echo $mockContact->getFirstName() . ' ' . $mockContact->getLastName(); ?></p>
@@ -32,13 +32,9 @@
 
     <h2>Notes</h2>
 <ul>
-    <?php foreach ($notes as $note): ?>
-        <li>
-            <strong><?php echo htmlspecialchars($note['author']); ?>:</strong>
-            <?php echo htmlspecialchars($note['note']); ?>
-            <em>(<?php echo $note['created_at']; ?>)</em>
-        </li>
-    <?php endforeach; ?>
+    <strong></strong>
+    <?php echo htmlspecialchars($note['note']); ?>
+    <em>(<?php echo $note['created_at']; ?>)</em>
 </ul>
 
 <h3>Add Note</h3>

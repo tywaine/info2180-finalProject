@@ -12,32 +12,21 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     $email = filter_input(INPUT_POST, "email", FILTER_VALIDATE_EMAIL);
     $password = filter_input(INPUT_POST, "password", FILTER_SANITIZE_SPECIAL_CHARS);
 
-    if (empty($email) || empty($password)) {
-        if (empty($email) && empty($password)) {
-            $error_message = "Please enter both email and password.";
-        } elseif (empty($password)) {
-            $error_message = "Password is required.";
-        } else {
-            $error_message = "Email is required.";
-        }
+    $user = User::isValidCredentials($email, $password);
+
+    if ($user) {
+        $_SESSION['user_id'] = $user->getId();
+        $_SESSION['firstname'] = $user->getFirstname();
+        $_SESSION['lastname'] = $user->getLastname();
+        $_SESSION['email'] = $user->getEmail();
+        $_SESSION['role'] = $user->getRole();
+
+        session_regenerate_id(true);
+        header('Location: ../');
+        exit;
     }
-    else{
-        $user = User::isValidCredentials($email, $password);
-
-        if ($user) {
-            $_SESSION['user_id'] = $user->getId();
-            $_SESSION['firstname'] = $user->getFirstname();
-            $_SESSION['lastname'] = $user->getLastname();
-            $_SESSION['email'] = $user->getEmail();
-            $_SESSION['role'] = $user->getRole();
-
-            session_regenerate_id(true);
-            header('Location: ../');
-            exit;
-        }
-        else {
-            $error_message = "Invalid credentials";
-        }
+    else {
+        $error_message = "Invalid credentials";
     }
 }
 

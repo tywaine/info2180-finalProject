@@ -1,4 +1,5 @@
 <?php
+session_start();
 include("../config/database.php");
 include_once '../models/user.php';
 use app\models\User;
@@ -14,24 +15,23 @@ $users = User::getUsers();
     <meta charset="UTF-8">
     <meta name = "viewport" content = "width= device width, initial-scale= 1.0 ">
     <title>View User </title>
-    <link rel="stylesheet" href="assets/css/viewuser.css">
+    <link rel="stylesheet" href="../assets/css/viewuser.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Symbols+Outlined" />
     <!-- insert icons here -->
 </head>
 <body>
-<section class="sect">
+<section id="viewUsers" class="sect">
     <div class="tableSection">
 
         <div class="tableHeading">
             <h1>Users</h1>
-            <button class="addbtn">
-                <span class="material-symbols-outlined">
-                    add
-                    </span>
-                Add User</button>
+            <!-- Add event listener for button click -->
+            <button class="addbtn" id="addUserButton">
+                <span class="material-symbols-outlined">add</span> Add User
+            </button>
         </div>
 
         <div class=" tableincontainer">
-
             <table class="user-table" >
                 <thead class="th">
                 <tr>
@@ -42,7 +42,6 @@ $users = User::getUsers();
                 </tr>
                 </thead>
                 <tbody>
-                <!--wrap testing purposes only -->
                 <?php if (!empty($users)): ?>
                     <?php foreach ($users as $user): ?>
                         <tr>
@@ -58,7 +57,6 @@ $users = User::getUsers();
                         <td></td>
                         <td></td>
                         <td></td>
-                        <!--php to fill the row -->
                     </tr>
                 <?php endif; ?>
                 </tbody>

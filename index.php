@@ -42,6 +42,7 @@ User::loadUsers();
     <main class="content" id="mainContent">
         <!-- The Main Content is dynamically shown here -->
     </main>
+
 <script src="assets/js/main.js" type="text/javascript"></script>
 </body>
 </html>
