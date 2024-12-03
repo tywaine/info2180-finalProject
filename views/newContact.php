@@ -12,24 +12,28 @@ User::loadUsers();
 $users = User::getUsers();
 
 $response = [];
-$total = 0;
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $title = filter_input(INPUT_POST, 'title', FILTER_SANITIZE_SPECIAL_CHARS);
     $firstName = filter_input(INPUT_POST, "firstName", FILTER_SANITIZE_SPECIAL_CHARS);
     $lastName = filter_input(INPUT_POST, "lastName", FILTER_SANITIZE_SPECIAL_CHARS);
     $email = filter_input(INPUT_POST, "email", FILTER_VALIDATE_EMAIL);
-    $telephone = filter_input(INPUT_POST, "telephone", FILTER_SANITIZE_NUMBER_INT);
-    $company = filter_input(INPUT_POST, "password", FILTER_SANITIZE_SPECIAL_CHARS);
-    $type = filter_input(INPUT_POST, "role", FILTER_SANITIZE_SPECIAL_CHARS);
-    $assignedTo = filter_input(INPUT_POST, "assignedTo", FILTER_SANITIZE_SPECIAL_CHARS);
+    $telephone = filter_input(INPUT_POST, "telephone", FILTER_SANITIZE_SPECIAL_CHARS);
+    $company = filter_input(INPUT_POST, "company", FILTER_SANITIZE_SPECIAL_CHARS);
+    $type = filter_input(INPUT_POST, "type", FILTER_SANITIZE_SPECIAL_CHARS);
+    $assignedTo = filter_input(INPUT_POST, "assignedTo", FILTER_SANITIZE_NUMBER_INT);
 
     $emailDoesntExist = !Contact::emailExist($email);
+    $validTelephone = Contact::isValidTelephone($telephone);
 
     if ($title && $firstName && $lastName && $email && $telephone && $company && $type && $assignedTo) {
-        if($emailDoesntExist){
+        if($emailDoesntExist && $validTelephone){
             Contact::addContact($title, $firstName, $lastName, $email, $telephone, $company, $type, $assignedTo, $_SESSION['user_id']);
             $response['status'] = 'success';
             $response['message'] = 'Successfully Created Contact';
+        }
+        else if(!$validTelephone){
+            $response['status'] = 'error';
+            $response['message'] = 'Incorrect telephone format (###-####)';
         }
         else{
             $response['status'] = 'error';
@@ -135,7 +139,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     <div class="user-content-button-add">
                         <button type="submit">Save</button>
                     </div>
-                    <div id="errorMessageAddUser" class="error-message"></div>
+                    <div id="errorMessageAddContact" class="error-message"></div>
                 </div>
 
             </form>

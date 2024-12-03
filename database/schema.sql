@@ -44,7 +44,7 @@ CREATE TABLE IF NOT EXISTS Notes (
 -- The password is hashed ('password123'). Use password_verify() for validation during login.
 INSERT INTO Users (firstname, lastname, password, email, role)
 VALUES (
-    'ADMIN',
+    'Admin',
     'INFO2180_Project2',
     '$2y$10$/hxj/.zLNpIuwahEyaHRXOu1dVkfFE1pLGLw1t3A8ko5bG.akhmh.', -- hashed 'password123'
     'admin@project2.com',

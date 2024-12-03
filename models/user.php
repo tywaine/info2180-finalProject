@@ -24,7 +24,8 @@ class User{
         }
     }
 
-    public static function userIdExists($id) {
+    public static function userIdExists($id): bool
+    {
         return isset(self::$users[$id]);
     }
 
@@ -32,7 +33,7 @@ class User{
         return $this->id;
     }
 
-    public function getFirstName() {
+    public function getFirstName():string {
         return $this->firstname;
     }
 
@@ -40,7 +41,7 @@ class User{
         $this->firstname = $firstname;
     }
 
-    public function getLastName() {
+    public function getLastName():string {
         return $this->lastname;
     }
 
@@ -48,7 +49,7 @@ class User{
         $this->lastname = $lastname;
     }
 
-    public function getEmail() {
+    public function getEmail():string {
         return $this->email;
     }
 
@@ -62,7 +63,7 @@ class User{
         }
     }
 
-    public function getRole() {
+    public function getRole():string {
         return $this->role;
     }
 
@@ -78,7 +79,7 @@ class User{
         $this->created_at = $created_at;
     }
 
-    public static function validatePassword($password) {
+    public static function validatePassword($password):bool {
         $pattern = '/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d]{8,}$/';
 
         if (preg_match($pattern, $password)) {
@@ -96,7 +97,7 @@ class User{
         self::$users = [];
     }
 
-    public static function getUsers() {
+    public static function getUsers():array {
         return self::$users;
     }
 
@@ -158,7 +159,7 @@ class User{
         return false;
     }
 
-    public static function addUser($firstname, $lastname, $email, $role, $password) {
+    public static function addUser($firstname, $lastname, $email, $role, $password):bool {
         $hashedPassword = password_hash($password, PASSWORD_DEFAULT);
 
         $query = "INSERT INTO users (firstname, lastname, email, role, password) VALUES (?, ?, ?, ?, ?)";
@@ -181,7 +182,7 @@ class User{
         return false;
     }
 
-    public static function emailExist($email): bool{
+    public static function emailExist($email):bool {
         $query = "SELECT * FROM users WHERE email = ?";
         $stmt = mysqli_prepare(self::$conn, $query);
         mysqli_stmt_bind_param($stmt, 's', $email);
@@ -195,8 +196,3 @@ class User{
         return false;
     }
 }
-?>
-
-<?php
-
-?>

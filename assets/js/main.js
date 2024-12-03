@@ -18,7 +18,14 @@ document.addEventListener("DOMContentLoaded", function () {
         const form = e.target;
         if (form.id === 'userForm') {
             e.preventDefault();
-            handleFormSubmit(form).then(() => {
+            handleFormSubmit(form, 'addUser').then(() => {
+            }).catch(error => {
+                console.error('Error handling form submission:', error);
+            });
+        }
+        if (form.id === 'contactForm') {
+            e.preventDefault();
+            handleFormSubmit(form, 'addContact').then(() => {
             }).catch(error => {
                 console.error('Error handling form submission:', error);
             });
@@ -52,6 +59,10 @@ function loadContent(url) {
             if(url === 'views/addUser.php'){
                 attachAddUserFormListener()
             }
+
+            if(url === 'views/addContact.php'){
+                attachAddContactFormListener()
+            }
         })
         .catch(error => {
             console.error('Error loading content:', error);
@@ -77,12 +88,23 @@ function attachAddUserFormListener() {
     if (form) {
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
-            await handleFormSubmit(form);
+            await handleFormSubmit(form, 'addUser');
         });
     }
 }
 
-async function handleFormSubmit(form) {
+function attachAddContactFormListener() {
+    const form = document.querySelector('#contactForm');
+    if (form) {
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            await handleFormSubmit(form, 'addContact');
+        });
+    }
+}
+
+
+async function handleFormSubmit(form, pageName) {
     const formData = new FormData(form);
 
     try {
@@ -92,13 +114,27 @@ async function handleFormSubmit(form) {
         });
 
         const result = await response.json();
-        const errorMessage = document.getElementById('errorMessageAddUser');
+        let errorMessage = '';
 
-        if (response.ok && result.status === 'success') {
-            loadContent('views/viewUsers.php');
+        if(pageName === 'addUser'){
+            errorMessage = document.getElementById('errorMessageAddUser');
+
+            if (response.ok && result.status === 'success') {
+                loadContent('views/viewUsers.php');
+            }
+            else {
+                errorMessage.textContent = result.message;
+            }
         }
-        else {
-            errorMessage.textContent = result.message;
+        else{
+            errorMessage = document.getElementById('errorMessageAddContact');
+
+            if (response.ok && result.status === 'success') {
+                loadContent('views/home.php');
+            }
+            else {
+                errorMessage.textContent = result.message;
+            }
         }
     } catch (error) {
         console.error('Error submitting form:', error);

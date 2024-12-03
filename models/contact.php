@@ -92,7 +92,12 @@ class Contact {
         return $this->updated_at;
     }
 
-    public static function getContacts() {
+    public static function isValidTelephone($telephone): bool {
+        return preg_match('/^\d{3}-\d{4}$|^\d{3}-\d{3}-\d{4}$/', $telephone);
+    }
+
+    public static function getContacts(): array
+    {
         return self::$contacts;
     }
 
