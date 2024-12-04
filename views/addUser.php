@@ -53,6 +53,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </head>
 <body>
     <div class="main-add">
+        <!-- Message container for success or error messages -->
+        <div id="temporaryMessage" class="message" style="display: none;"></div>
+
         <div class="right-add">
             <br><br>
             <h1>New User</h1>
@@ -94,7 +97,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                         <div class="user-content-button-add">
                             <button type="submit">Save</button>
                         </div>
-                        <div id="errorMessageAddUser" class="error-message"></div>
+                        <div id="successAdduser" class="successMessage"></div>
                     </div>
                 </form>
             </div>

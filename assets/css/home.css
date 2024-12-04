@@ -14,31 +14,15 @@ header{
     margin-top: 0;
 }
 
-.sidebar{
-    display: flex;
-    width :250px;
-    background-color:white;
-    color: black;
-    position: fixed;
-    padding: 20px;
-    flex-direction: column;
-    gap: 15px;
-    top: 70px;
-    left:0;
-    bottom: 0;
-    font-family: Arial, Helvetica, sans-serif;
-}
-
-.sidebar a {
+td a {
     text-decoration: none;
-    color: inherit;
     display: flex;
     align-items: center;
+    color: #6F00FF;
 }
 
-.sidebar a:hover {
-    background-color: #f0f0f0;
-    color: #333;
+td a:hover {
+    text-decoration: underline;
 }
 
 .material-symbols-outlined {
@@ -47,18 +31,11 @@ header{
     margin-right: 10px;
 }
 
-.sidebar ul{
-    list-style: none;
-    padding: 0;
-    margin: 10px;
-
-
-}
-
 body{
     font-family: Arial, Helvetica, sans-serif;
     background-color: #f1f1f1;
     color: black;
+
 }
 
 sect{
@@ -71,6 +48,7 @@ sect{
     flex-grow: 1;
     margin-left: 250px;
     padding: 20px;
+
 }
 
 li{
@@ -106,6 +84,7 @@ hr{
     border-radius: 5px;
     font-size: 15px;
     cursor: pointer;
+
 }
 
 .addbtn:hover{
@@ -116,6 +95,8 @@ hr{
     background-color:white;
     width:100%;
     padding: 15px;
+
+
 }
 
 .user-table{
@@ -143,39 +124,78 @@ hr{
     text-align: left;
     border-bottom: 1px solid #dfdfdf;
     color: black;
+
 }
 .name{
     font-weight: bold;
 }
-/* View Users */
 
-.message {
-    position: fixed;
-    top: 10px;
-    left: 50%;
-    transform: translateX(-50%);
-    padding: 10px;
-    background-color: #4CAF50;
+.support-btn {
+    background-color: #6F00FF;
     color: white;
+    padding: 5px 10px;
     border-radius: 5px;
-    z-index: 1000;
-    display: none;
-    font-size: 16px;
+    font-size: 14px;
+    border: none;
+    display: inline-block;
     text-align: center;
-    width: auto;
-    min-width: 200px;
 }
 
-.success {
-    background-color: green;
-    color: white;
-    padding: 10px;
+.sales-lead-btn {
+    background-color: #FFCC00;
+    color: black;
+    padding: 5px 10px;
+    border-radius: 5px;
+    font-size: 14px;
+    border: none;
     display: inline-block;
+    text-align: center;
 }
 
-.error {
-    background-color: red;
-    color: white;
-    padding: 10px;
-    display: inline-block;
+.filter-section {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    gap: 10px;
+    font-size: 16px;
+    color: black;
+}
+
+.filter-btn {
+    background-color: transparent;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    color: black;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.filter-btn:hover {
+    background-color: #e0e0e0;
+}
+
+.filter-btn:active {
+    outline: none;
+    color: #6F00FF;
+    text-decoration: underline;
+}
+
+.filter-btn:focus {
+    outline: none;
+    color: #6F00FF;
+    text-decoration: underline;
+}
+
+.user-table th.contactType,
+.user-table td.contactType {
+    text-align: center;
+    vertical-align: middle;
+}
+
+.user-table th.contactType {
+    padding-left: 0;
+    padding-right: 0;
 }

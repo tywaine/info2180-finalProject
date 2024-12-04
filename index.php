@@ -17,6 +17,10 @@ if (!isset($_SESSION['user_id'])) {
     <title>🐬 Dolphin CRM</title>
     <link rel="stylesheet" href="assets/css/styles.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Symbols+Outlined" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        window.loggedInUserId = <?php echo json_encode($_SESSION['user_id']); ?>;
+    </script>
 </head>
 <body>
     <header>

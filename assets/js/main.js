@@ -63,6 +63,11 @@ function loadContent(url) {
             if(url === 'views/addContact.php'){
                 attachAddContactFormListener()
             }
+
+            if(url === 'views/home.php'){
+                attachAddContactButtonListener()
+                attachFilterButtonListener()
+            }
         })
         .catch(error => {
             console.error('Error loading content:', error);
@@ -81,6 +86,29 @@ function attachAddUserButtonListener() {
             loadContent('views/addUser.php');
         });
     }
+}
+
+function attachAddContactButtonListener() {
+    const addContactButton = document.getElementById('addContactButton');
+
+    if (addContactButton) {
+        addContactButton.addEventListener('click', function (e) {
+            e.preventDefault();
+            loadContent('views/newContact.php');
+        });
+    }
+
+    const viewLinks = document.querySelectorAll('.view-link');
+
+    viewLinks.forEach(link => {
+        link.addEventListener('click', function (e) {
+            e.preventDefault();
+
+            const target = this.getAttribute('data-target');
+            loadContent(target);
+        });
+    });
+
 }
 
 function attachAddUserFormListener() {
@@ -114,29 +142,85 @@ async function handleFormSubmit(form, pageName) {
         });
 
         const result = await response.json();
-        let errorMessage = '';
 
         if(pageName === 'addUser'){
-            errorMessage = document.getElementById('errorMessageAddUser');
 
             if (response.ok && result.status === 'success') {
+                $('#temporaryMessage')
+                    .removeClass('error')
+                    .addClass('success')
+                    .text(result.message)
+                    .fadeIn()
+                    .delay(450)
+                    .fadeOut();
+
+                await sleep(1000)
                 loadContent('views/viewUsers.php');
             }
             else {
-                errorMessage.textContent = result.message;
+                $('#temporaryMessage')
+                    .removeClass('success')
+                    .addClass('error')
+                    .text(result.message)
+                    .fadeIn()
+                    .delay(1500)
+                    .fadeOut();
             }
         }
         else{
-            errorMessage = document.getElementById('errorMessageAddContact');
-
             if (response.ok && result.status === 'success') {
+                $('#temporaryMessage')
+                    .removeClass('error')
+                    .addClass('success')
+                    .text(result.message)
+                    .fadeIn()
+                    .delay(450)
+                    .fadeOut();
+
+                await sleep(1000)
                 loadContent('views/home.php');
             }
             else {
-                errorMessage.textContent = result.message;
+                $('#temporaryMessage')
+                    .removeClass('success')
+                    .addClass('error')
+                    .text(result.message)
+                    .fadeIn()
+                    .delay(1500)
+                    .fadeOut();
             }
         }
     } catch (error) {
         console.error('Error submitting form:', error);
     }
+}
+
+function attachFilterButtonListener() {
+    const filterButtons = document.querySelectorAll('.filter-btn');
+    const loggedInUserId = window.loggedInUserId;
+    console.log('Logged-in User ID:', loggedInUserId);
+    const rows = document.querySelectorAll('.user-table tbody tr');
+
+    filterButtons.forEach(button => {
+        button.addEventListener('click', function () {
+            const filter = this.getAttribute('data-filter');
+
+            rows.forEach(row => {
+                const type = row.getAttribute('data-type');
+                const assignedTo = row.getAttribute('data-assigned-to');
+
+                if (filter === 'all' || type === filter ||
+                    (filter === 'assigned-to-me' && assignedTo === String(loggedInUserId))) {
+                    row.style.display = ''; // Show row
+                }
+                else {
+                    row.style.display = 'none'; // Hide row
+                }
+            });
+        });
+    });
+}
+
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms));
 }
