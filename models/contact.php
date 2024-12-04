@@ -150,10 +150,10 @@ class Contact {
         return mysqli_stmt_execute($stmt);
     }
 
-    public static function updateContact($id, $type, $assigned_to, $updated_at): bool{
-        $query = "UPDATE Contacts SET type = ?, assigned_to = ?, updated_at = ? WHERE id = ?";
+    public static function updateContact($id, $type, $assigned_to): bool{
+        $query = "UPDATE Contacts SET type = ?, assigned_to = ?, updated_at = NOW() WHERE id = ?";
         $stmt = mysqli_prepare(self::$conn, $query);
-        mysqli_stmt_bind_param($stmt, 'sssi', $type, $assigned_to, $updated_at, $id);
+        mysqli_stmt_bind_param($stmt, 'ssi', $type, $assigned_to, $id);
 
         return mysqli_stmt_execute($stmt);
     }
@@ -208,5 +208,19 @@ class Contact {
 
         return false;
     }
+
+    public static function telephoneExist($telephone): bool{
+        $query = "SELECT * FROM Contacts WHERE telephone = ?";
+        $stmt = mysqli_prepare(self::$conn, $query);
+        mysqli_stmt_bind_param($stmt, 's', $telephone);
+        mysqli_stmt_execute($stmt);
+        $result = mysqli_stmt_get_result($stmt);
+
+        if (mysqli_num_rows($result) > 0) {
+            return true;
+        }
+
+        return false;
+    }
+
 }
-?>

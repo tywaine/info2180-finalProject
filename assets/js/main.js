@@ -198,7 +198,6 @@ async function handleFormSubmit(form, pageName) {
 function attachFilterButtonListener() {
     const filterButtons = document.querySelectorAll('.filter-btn');
     const loggedInUserId = window.loggedInUserId;
-    console.log('Logged-in User ID:', loggedInUserId);
     const rows = document.querySelectorAll('.user-table tbody tr');
 
     filterButtons.forEach(button => {

@@ -23,17 +23,22 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $assignedTo = filter_input(INPUT_POST, "assignedTo", FILTER_SANITIZE_NUMBER_INT);
 
     $emailDoesntExist = !Contact::emailExist($email);
+    $telephoneDoesntExist = !Contact::telephoneExist($telephone);
     $validTelephone = Contact::isValidTelephone($telephone);
 
     if ($title && $firstName && $lastName && $email && $telephone && $company && $type && $assignedTo) {
-        if($emailDoesntExist && $validTelephone){
+        if($emailDoesntExist && $validTelephone && $telephoneDoesntExist){
             Contact::addContact($title, $firstName, $lastName, $email, $telephone, $company, $type, $assignedTo, $_SESSION['user_id']);
             $response['status'] = 'success';
             $response['message'] = 'Successfully Created Contact';
         }
         else if(!$validTelephone){
             $response['status'] = 'error';
-            $response['message'] = 'Incorrect telephone format (###-####)';
+            $response['message'] = 'Incorrect telephone format (###-#### or ###-###-####)';
+        }
+        else if(!$telephoneDoesntExist){
+            $response['status'] = 'error';
+            $response['message'] = 'Telephone already exists';
         }
         else{
             $response['status'] = 'error';
