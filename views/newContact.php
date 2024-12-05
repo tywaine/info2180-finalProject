@@ -72,7 +72,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     <div class="right-add">
         <br><br>
-        <h1>New Contact</h1>
+        <h1>New Contact</h1><br>
         <div class="login-add">
 
             <form id="contactForm" method="POST" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>">

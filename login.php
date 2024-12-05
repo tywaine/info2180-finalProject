@@ -2,8 +2,8 @@
 // Email = admin@project2.com
 // Password = password123
 session_start();
-include_once '../config/database.php';
-include_once '../models/user.php';
+include_once 'config/database.php';
+include_once 'models/user.php';
 use app\models\User;
 User::setConnection($conn);
 
@@ -22,7 +22,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         $_SESSION['role'] = $user->getRole();
 
         session_regenerate_id(true);
-        header('Location: ../');
+        header('Location: ./?role=' .$_SESSION['role']);
         exit;
     }
     else {
@@ -37,7 +37,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>🐬 Dolphin CRM | Login</title>
-    <link rel="stylesheet" href="../assets/css/login.css">
+    <link rel="stylesheet" href="assets/css/login.css">
 </head>
 <body>
 <div class="main">

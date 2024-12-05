@@ -15,7 +15,7 @@ $users = User::getUsers();
     <meta charset="UTF-8">
     <meta name = "viewport" content = "width= device width, initial-scale= 1.0 ">
     <title>View User </title>
-    <link rel="stylesheet" href="../assets/css/viewuser.css">
+    <link rel="stylesheet" href="../assets/css/viewUser.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Symbols+Outlined" />
     <!-- insert icons here -->
 </head>

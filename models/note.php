@@ -23,7 +23,7 @@ class Note{
         }
     }
 
-    public static function noteExists($id) {
+    public static function noteExists($id):bool {
         return isset(self::$notes[$id]);
     }
 
@@ -47,6 +47,11 @@ class Note{
         return $this->created_at;
     }
 
+    public function getCreatedAtFormatted():string {
+        $timestamp = strtotime($this->getCreatedAt());
+        return date('F j, Y \a\t g:ia', $timestamp);
+    }
+
     public static function setConnection($conn){
         self::$conn = $conn;
     }
@@ -55,7 +60,7 @@ class Note{
         self::$notes = [];
     }
 
-    public static function getNotes() {
+    public static function getNotes():array {
         return self::$notes;
     }
 
@@ -68,26 +73,25 @@ class Note{
     }
 
     public static function loadNotes() {
-        $query = "SELECT * FROM users";
+        $query = "SELECT * FROM Notes";
         $result = mysqli_query(self::$conn, $query);
 
         if (mysqli_num_rows($result) > 0) {
-            $fetchedUsers = mysqli_fetch_all($result, MYSQLI_ASSOC);
-            self::clearNotes();
+            $fetchedNotes = mysqli_fetch_all($result, MYSQLI_ASSOC);
 
-            foreach ($fetchedUsers as $user) {
-                new Note ($user['id'],
-                    $user['contact_id'],
-                    $user['comment'],
-                    $user['created_by'],
-                    $user['created_at']
+            foreach ($fetchedNotes as $note) {
+                new Note ($note['id'],
+                    $note['contact_id'],
+                    $note['comment'],
+                    $note['created_by'],
+                    $note['created_at']
                 );
             }
         }
     }
 
-    public static function addContact($contact_id, $comment, $created_by) {
-        $query = "INSERT INTO Notes (contact_id, comment, created_by) VALUES (?, ?, ?)";
+    public static function addNote($contact_id, $comment, $created_by):bool {
+        $query = "INSERT INTO Notes (contact_id, comment, created_by, created_at) VALUES (?, ?, ?, NOW())";
         $stmt = mysqli_prepare(self::$conn, $query);
         mysqli_stmt_bind_param($stmt, 'isi', $contact_id, $comment, $created_by);
 
@@ -104,6 +108,28 @@ class Note{
         }
 
         return false;
+    }
+
+    public static function getNotesByContactId($contact_id): array{
+        $query = "SELECT * FROM Notes WHERE contact_id = ?";
+        $stmt = mysqli_prepare(self::$conn, $query);
+        mysqli_stmt_bind_param($stmt, 'i', $contact_id);
+        mysqli_stmt_execute($stmt);
+        $result = mysqli_stmt_get_result($stmt);
+
+        $notes = [];
+        while ($note = mysqli_fetch_assoc($result)) {
+            $newNote =  new Note ($note['id'],
+                        $note['contact_id'],
+                        $note['comment'],
+                        $note['created_by'],
+                        $note['created_at']
+                    );
+
+            $notes[$newNote->getId()] = $newNote;
+        }
+
+        return $notes;
     }
 
 }

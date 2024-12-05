@@ -6,7 +6,6 @@ use app\models\Contact;
 Contact::setConnection($conn);
 Contact::loadContacts();
 $contacts = Contact::getContacts();
-
 ?>
 
 <!DOCTYPE html>
@@ -69,7 +68,7 @@ $contacts = Contact::getContacts();
                                     <span class="sales-lead-btn">SALES LEAD</span>
                                 <?php endif; ?>
                             </td>
-                            <td><a id="<?php echo htmlspecialchars($contact->getId()) ?>" href="javascript:void(0)" class="view-link" data-target="views/contactDetails.php">View</a></td>
+                            <td><a href="javascript:void(0)" class="view-link" data-target="views/contactNotes.php?id=<?php echo htmlspecialchars($contact->getId()); ?>">View</a></td>
                         </tr>
                     <?php endforeach; ?>
                 <?php else: ?>

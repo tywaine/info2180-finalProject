@@ -3,19 +3,19 @@ namespace app\models;
 
 class Contact {
     private static $conn;
-    private $id;
-    private $title;
-    private $firstname;
-    private $lastname;
-    private $email;
-    private $telephone;
-    private $company;
-    private $type;
-    private $assigned_to;
-    private $created_by;
-    private $created_at;
-    private $updated_at;
-    private static $contacts = [];
+    private int $id;
+    private string $title;
+    private string $firstname;
+    private string $lastname;
+    private string $email;
+    private string $telephone;
+    private string $company;
+    private string $type;
+    private int $assigned_to;
+    private int $created_by;
+    private string $created_at;
+    private string $updated_at;
+    private static array $contacts = [];
 
     public function __construct($id, $title, $firstname, $lastname, $email, $telephone,  $company, $type, $assigned_to, $created_by, $created_at, $updated_at) {
         $this->id = $id;
@@ -92,6 +92,26 @@ class Contact {
         return $this->updated_at;
     }
 
+    public function getTypeOpposite(): string{
+        if(strtolower($this->getType()) == "support"){
+            return "Sales Lead";
+        }
+        else{
+            return "Support";
+        }
+    }
+
+    public function getCreatedAtFormatted():string {
+        $timestamp = strtotime($this->getCreatedAt());
+        return date('F j, Y', $timestamp);
+    }
+
+
+    public function getUpdatedAtFormatted():string {
+        $timestamp = strtotime($this->getUpdatedAt());
+        return date('F j, Y', $timestamp);
+    }
+
     public static function isValidTelephone($telephone): bool {
         return preg_match('/^\d{3}-\d{4}$|^\d{3}-\d{3}-\d{4}$/', $telephone);
     }
@@ -160,28 +180,9 @@ class Contact {
 
     // NEW METHODS FOR NOTES FUNCTIONALITY
 
-    public static function getNotesByContactId($contact_id): array{
-        $query = "SELECT * FROM Notes WHERE contact_id = ?";
-        $stmt = mysqli_prepare(self::$conn, $query);
-        mysqli_stmt_bind_param($stmt, 'i', $contact_id);
-        mysqli_stmt_execute($stmt);
-        $result = mysqli_stmt_get_result($stmt);
 
-        $notes = [];
-        while ($row = mysqli_fetch_assoc($result)) {
-            $notes[] = [
-                'id' => $row['id'],
-                'author' => $row['author'],
-                'note' => $row['note'],
-                'created_at' => $row['created_at']
-            ];
-        }
-
-        return $notes;
-    }
-
-    public static function addNoteToContact($contact_id, $author, $note): bool{
-        $query = "INSERT INTO Notes (contact_id, author, note, created_at)
+    public static function addNoteToContact($contact_id, $comment, $created_by): bool{
+        $query = "INSERT INTO Notes (contact_id, comment, created_by, created_at)
                   VALUES (?, ?, ?, NOW())";
 
         $stmt = mysqli_prepare(self::$conn, $query);
@@ -190,7 +191,7 @@ class Contact {
             return false;
         }
 
-        mysqli_stmt_bind_param($stmt, 'iss', $contact_id, $author, $note);
+        mysqli_stmt_bind_param($stmt, 'iss', $contact_id, $comment, $created_by);
 
         return mysqli_stmt_execute($stmt);
     }

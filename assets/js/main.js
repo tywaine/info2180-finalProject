@@ -30,6 +30,11 @@ document.addEventListener("DOMContentLoaded", function () {
                 console.error('Error handling form submission:', error);
             });
         }
+
+        if (form.id === 'noteForm') {
+            e.preventDefault();
+            handleNoteSubmit(form);
+        }
     });
 
     // If you want to experiment how you view looks on the main page, Change this.
@@ -68,6 +73,11 @@ function loadContent(url) {
                 attachAddContactButtonListener()
                 attachFilterButtonListener()
             }
+
+            if(url === 'views/contactNotes.php'){
+                attachNoteSubmitFormListener()
+            }
+
         })
         .catch(error => {
             console.error('Error loading content:', error);
@@ -131,6 +141,16 @@ function attachAddContactFormListener() {
     }
 }
 
+function attachNoteSubmitFormListener(){
+    const form = document.querySelector('#addNoteForm');
+    if (form) {
+        form.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            await handleNoteSubmit(form);
+        });
+    }
+}
+
 
 async function handleFormSubmit(form, pageName) {
     const formData = new FormData(form);
@@ -151,10 +171,10 @@ async function handleFormSubmit(form, pageName) {
                     .addClass('success')
                     .text(result.message)
                     .fadeIn()
-                    .delay(450)
+                    .delay(400)
                     .fadeOut();
 
-                await sleep(1000)
+                await sleep(900)
                 loadContent('views/viewUsers.php');
             }
             else {
@@ -174,10 +194,10 @@ async function handleFormSubmit(form, pageName) {
                     .addClass('success')
                     .text(result.message)
                     .fadeIn()
-                    .delay(450)
+                    .delay(400)
                     .fadeOut();
 
-                await sleep(1000)
+                await sleep(900)
                 loadContent('views/home.php');
             }
             else {
@@ -219,6 +239,32 @@ function attachFilterButtonListener() {
         });
     });
 }
+
+function handleNoteSubmit(form) {
+    // Serialize form data using jQuery
+    const formData = $(form).serialize();
+
+    // Send AJAX request
+    $.ajax({
+        url: '<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>', // The PHP file handling the form
+        type: 'POST',
+        data: formData,
+        dataType: 'json',
+        success: function(response) {
+            if (response.status === 'success') {
+                $('#responseMessage').html('<p style="color: green;">' + response.message + '</p>');
+
+                loadContent('views/contactNotes.php');
+            } else {
+                $('#responseMessage').html('<p style="color: red;">' + response.message + '</p>');
+            }
+        },
+        error: function() {
+            $('#responseMessage').html('<p style="color: red;">There was an error processing your request.</p>');
+        }
+    });
+}
+
 
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
