@@ -22,7 +22,7 @@ if($_SERVER["REQUEST_METHOD"] == "POST"){
         $_SESSION['role'] = $user->getRole();
 
         session_regenerate_id(true);
-        header('Location: ./?role=' .$_SESSION['role']);
+        header('Location: ./');
         exit;
     }
     else {

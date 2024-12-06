@@ -15,7 +15,7 @@ Note::setConnection($conn);
 User::loadUsers();
 Contact::loadContacts();
 
-$contacts = null;
+$contactId = null;
 
 if(isset($_GET['id'])){
     $contactId = $_GET['id'];
@@ -26,29 +26,56 @@ else{
 }
 
 $contact = Contact::getContactById($contactId);
-$notes = Note::getNotesByContactId($contactId);
 $assignedToUser = User::getUserById($contact->getAssignedTo());
 
 $response = [];
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    if (isset($_POST['comment'])) {
+    if(isset($_POST["comment"])){
         $comment = filter_input(INPUT_POST, "comment", FILTER_SANITIZE_SPECIAL_CHARS);
 
         if ($contactId && $comment) {
             Note::addNote($contactId, $comment, $_SESSION['user_id']);
-            // Return success response as JSON
-            echo json_encode(['status' => 'success', 'message' => 'Note added successfully']);
-        } else {
-            // Return failure response as JSON
-            echo json_encode(['status' => 'error', 'message' => 'Failed to add note']);
+            $response['status'] = 'success';
+            $response['message'] = 'Note added successfully';
+        }
+        else {
+            $response['status'] = 'error';
+            $response['message'] = 'Failed to add note';
+        }
+    }
+    if(isset($_POST["action"])){
+        $action = $_POST["action"];
+
+        if ($action === 'assignToMe') {
+            $userId = $_SESSION['user_id'];
+            if ($contactId) {
+                $success = Contact::updateContact($contactId, $contact->getType(), $userId);
+                if ($success) {
+                    $response['status'] = 'success';
+                    $response['message'] = 'Contact successfully assigned to you';
+                } else {
+                    $response['message'] = 'Failed to assign contact';
+                }
+            }
+        } elseif ($action === 'switchType') {
+            if ($contactId) {
+                $newType = $contact->getTypeOpposite();
+                $success = Contact::updateContact($contactId, $newType, $contact->getAssignedTo());
+                if ($success) {
+                    $response['status'] = 'success';
+                    $response['message'] = 'Contact type switched to ' . $newType;
+                } else {
+                    $response['message'] = 'Failed to switch contact type';
+                }
+            }
         }
     }
 
+    header('Content-Type: application/json');
+    echo json_encode($response);
     exit();
 }
 ?>
-
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -100,9 +127,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </div>
 
     <div class="notes-section">
-        <h3>Notes</h3>
+        <h3>Notes</h3><br>
         <div class="notes-list">
-            <?php foreach ($notes as $note): ?>
+            <?php foreach (Note::getNotesByContactId($contactId) as $note): ?>
                 <div class="note">
                     <p><strong><?php echo htmlspecialchars(User::getUserById($note->getCreatedBy())->getFirstName() . ' ' . User::getUserById($note->getCreatedBy())->getLastName()); ?></strong></p>
                     <p><?php echo nl2br(htmlspecialchars($note->getComment())); ?></p>
@@ -114,13 +141,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
     <div class="add-note">
         <h3>Add a note about <?php echo htmlspecialchars($contact->getFirstName()); ?></h3>
-        <form id="addNoteForm" method="POST" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>">
-            <textarea name="comment" placeholder="Enter details here" required></textarea>
+        <form id="noteForm" method="POST" action="<?php echo htmlspecialchars($_SERVER['PHP_SELF']); ?>">
+            <textarea id="comment" name="comment" placeholder="Enter details here" required></textarea>
             <button type="submit">Add Note</button>
         </form>
-        <div id="responseMessage"></div>
     </div>
-
+    <div id="temporaryMessage" class="message" style="display: none;"></div>
 </div>
 </body>
 </html>

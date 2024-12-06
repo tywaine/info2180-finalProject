@@ -16,24 +16,25 @@ document.addEventListener("DOMContentLoaded", function () {
 
     document.body.addEventListener('submit', function (e) {
         const form = e.target;
+        e.preventDefault();
+
         if (form.id === 'userForm') {
-            e.preventDefault();
             handleFormSubmit(form, 'addUser').then(() => {
             }).catch(error => {
                 console.error('Error handling form submission:', error);
             });
         }
         if (form.id === 'contactForm') {
-            e.preventDefault();
             handleFormSubmit(form, 'addContact').then(() => {
             }).catch(error => {
                 console.error('Error handling form submission:', error);
             });
         }
-
         if (form.id === 'noteForm') {
-            e.preventDefault();
-            handleNoteSubmit(form);
+            handleFormSubmit(form, 'addNote').then(() => {
+            }).catch(error => {
+                console.error('Error handling form submission:', error);
+            });
         }
     });
 
@@ -75,7 +76,8 @@ function loadContent(url) {
             }
 
             if(url === 'views/contactNotes.php'){
-                attachNoteSubmitFormListener()
+                attachAddNoteFormListener()
+                attachContactNotesButtonListeners()
             }
 
         })
@@ -84,7 +86,6 @@ function loadContent(url) {
             mainContent.innerHTML = 'There was an error loading the content.';
         });
 }
-
 
 // Function to attach event listener for Add User button
 function attachAddUserButtonListener() {
@@ -121,6 +122,49 @@ function attachAddContactButtonListener() {
 
 }
 
+function attachContactNotesButtonListeners() {
+    const assignToMeButton = document.getElementById('btnAssignToMe');
+    const switchTypeButton = document.getElementById('btnSwitchType');
+
+    if (assignToMeButton) {
+        assignToMeButton.addEventListener('click', function(e) {
+            e.preventDefault();
+            sendAction('assignToMe');
+        });
+    }
+
+    if (switchTypeButton) {
+        switchTypeButton.addEventListener('click', () => {
+            sendAction('switchType');
+        });
+    }
+
+    function sendAction(action) {
+        fetch('views/contactNotes.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ action: action }),
+        })
+            .then(response => response.json())
+            .then(data => {
+                if (data.status === 'success') {
+                    alert(data.message);
+                    //location.reload();
+                    loadContent('views/contactNotes.php'); // Reload the notes view
+                }
+                else {
+                    alert(data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('An error occurred');
+            });
+    }
+}
+
 function attachAddUserFormListener() {
     const form = document.querySelector('#userForm');
     if (form) {
@@ -141,12 +185,12 @@ function attachAddContactFormListener() {
     }
 }
 
-function attachNoteSubmitFormListener(){
-    const form = document.querySelector('#addNoteForm');
+function attachAddNoteFormListener(){
+    const form = document.querySelector('#noteForm');
     if (form) {
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
-            await handleNoteSubmit(form);
+            await handleFormSubmit(form, 'addNote');
         });
     }
 }
@@ -163,52 +207,32 @@ async function handleFormSubmit(form, pageName) {
 
         const result = await response.json();
 
-        if(pageName === 'addUser'){
+        if (response.ok && result.status === 'success') {
+            $('#temporaryMessage')
+                .removeClass('error')
+                .addClass('success')
+                .text(result.message)
+                .fadeIn()
+                .delay(400)
+                .fadeOut();
 
-            if (response.ok && result.status === 'success') {
-                $('#temporaryMessage')
-                    .removeClass('error')
-                    .addClass('success')
-                    .text(result.message)
-                    .fadeIn()
-                    .delay(400)
-                    .fadeOut();
+            if(pageName === 'addNote'){
+                loadContent('views/contactNotes.php')
+                return;
+            }
 
-                await sleep(900)
-                loadContent('views/viewUsers.php');
-            }
-            else {
-                $('#temporaryMessage')
-                    .removeClass('success')
-                    .addClass('error')
-                    .text(result.message)
-                    .fadeIn()
-                    .delay(1500)
-                    .fadeOut();
-            }
+            await sleep(900)
+
+            loadContent((pageName === 'addUser') ? 'views/viewUsers.php' : 'views/home.php');
         }
-        else{
-            if (response.ok && result.status === 'success') {
-                $('#temporaryMessage')
-                    .removeClass('error')
-                    .addClass('success')
-                    .text(result.message)
-                    .fadeIn()
-                    .delay(400)
-                    .fadeOut();
-
-                await sleep(900)
-                loadContent('views/home.php');
-            }
-            else {
-                $('#temporaryMessage')
-                    .removeClass('success')
-                    .addClass('error')
-                    .text(result.message)
-                    .fadeIn()
-                    .delay(1500)
-                    .fadeOut();
-            }
+        else {
+            $('#temporaryMessage')
+                .removeClass('success')
+                .addClass('error')
+                .text(result.message)
+                .fadeIn()
+                .delay(1500)
+                .fadeOut();
         }
     } catch (error) {
         console.error('Error submitting form:', error);
@@ -239,32 +263,6 @@ function attachFilterButtonListener() {
         });
     });
 }
-
-function handleNoteSubmit(form) {
-    // Serialize form data using jQuery
-    const formData = $(form).serialize();
-
-    // Send AJAX request
-    $.ajax({
-        url: '<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>', // The PHP file handling the form
-        type: 'POST',
-        data: formData,
-        dataType: 'json',
-        success: function(response) {
-            if (response.status === 'success') {
-                $('#responseMessage').html('<p style="color: green;">' + response.message + '</p>');
-
-                loadContent('views/contactNotes.php');
-            } else {
-                $('#responseMessage').html('<p style="color: red;">' + response.message + '</p>');
-            }
-        },
-        error: function() {
-            $('#responseMessage').html('<p style="color: red;">There was an error processing your request.</p>');
-        }
-    });
-}
-
 
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
