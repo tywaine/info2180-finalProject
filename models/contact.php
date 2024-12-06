@@ -76,8 +76,16 @@ class Contact {
         return $this->type;
     }
 
+    public function setType($type):void{
+        $this->type = $type;
+    }
+
     public function getAssignedTo() {
         return $this->assigned_to;
+    }
+
+    public function setAssignedTo($assigned_to):void{
+        $this->assigned_to = $assigned_to;
     }
 
     public function getCreatedBy() {
@@ -170,7 +178,11 @@ class Contact {
         return mysqli_stmt_execute($stmt);
     }
 
-    public static function updateContact($id, $type, $assigned_to): bool{
+    public function update($type, $assigned_to): bool{
+        $this->setType($type);
+        $this->setAssignedTo($assigned_to);
+        $id = $this->getId();
+
         $query = "UPDATE Contacts SET type = ?, assigned_to = ?, updated_at = NOW() WHERE id = ?";
         $stmt = mysqli_prepare(self::$conn, $query);
         mysqli_stmt_bind_param($stmt, 'ssi', $type, $assigned_to, $id);
@@ -178,20 +190,16 @@ class Contact {
         return mysqli_stmt_execute($stmt);
     }
 
-    // NEW METHODS FOR NOTES FUNCTIONALITY
-
-
-    public static function addNoteToContact($contact_id, $comment, $created_by): bool{
-        $query = "INSERT INTO Notes (contact_id, comment, created_by, created_at)
-                  VALUES (?, ?, ?, NOW())";
-
-        $stmt = mysqli_prepare(self::$conn, $query);
-        if (!$stmt) {
-            echo "Failed to prepare statement: " . mysqli_error(self::$conn);
-            return false;
+    public static function updateContact($id, $type, $assigned_to): bool{
+        if(self::contactExists($id)){
+            $contact = self::getContactById($id);
+            $contact->setType($type);
+            $contact->setAssignedTo($assigned_to);
         }
 
-        mysqli_stmt_bind_param($stmt, 'iss', $contact_id, $comment, $created_by);
+        $query = "UPDATE Contacts SET type = ?, assigned_to = ?, updated_at = NOW() WHERE id = ?";
+        $stmt = mysqli_prepare(self::$conn, $query);
+        mysqli_stmt_bind_param($stmt, 'ssi', $type, $assigned_to, $id);
 
         return mysqli_stmt_execute($stmt);
     }

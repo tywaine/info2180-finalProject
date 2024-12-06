@@ -38,6 +38,18 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
+    document.body.addEventListener('click', function (e) {
+        if (e.target && e.target.id === 'btnAssignToMe') {
+            e.preventDefault();
+            sendAction('assignToMe');
+        }
+
+        if (e.target && e.target.id === 'btnSwitchType') {
+            e.preventDefault();
+            sendAction('switchType');
+        }
+    });
+
     // If you want to experiment how you view looks on the main page, Change this.
     loadContent('views/home.php');
 });
@@ -73,11 +85,6 @@ function loadContent(url) {
             if(url === 'views/home.php'){
                 attachAddContactButtonListener()
                 attachFilterButtonListener()
-            }
-
-            if(url === 'views/contactNotes.php'){
-                attachAddNoteFormListener()
-                attachContactNotesButtonListeners()
             }
 
         })
@@ -122,49 +129,6 @@ function attachAddContactButtonListener() {
 
 }
 
-function attachContactNotesButtonListeners() {
-    const assignToMeButton = document.getElementById('btnAssignToMe');
-    const switchTypeButton = document.getElementById('btnSwitchType');
-
-    if (assignToMeButton) {
-        assignToMeButton.addEventListener('click', function(e) {
-            e.preventDefault();
-            sendAction('assignToMe');
-        });
-    }
-
-    if (switchTypeButton) {
-        switchTypeButton.addEventListener('click', () => {
-            sendAction('switchType');
-        });
-    }
-
-    function sendAction(action) {
-        fetch('views/contactNotes.php', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ action: action }),
-        })
-            .then(response => response.json())
-            .then(data => {
-                if (data.status === 'success') {
-                    alert(data.message);
-                    //location.reload();
-                    loadContent('views/contactNotes.php'); // Reload the notes view
-                }
-                else {
-                    alert(data.message);
-                }
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                alert('An error occurred');
-            });
-    }
-}
-
 function attachAddUserFormListener() {
     const form = document.querySelector('#userForm');
     if (form) {
@@ -184,17 +148,6 @@ function attachAddContactFormListener() {
         });
     }
 }
-
-function attachAddNoteFormListener(){
-    const form = document.querySelector('#noteForm');
-    if (form) {
-        form.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            await handleFormSubmit(form, 'addNote');
-        });
-    }
-}
-
 
 async function handleFormSubmit(form, pageName) {
     const formData = new FormData(form);
@@ -217,12 +170,12 @@ async function handleFormSubmit(form, pageName) {
                 .fadeOut();
 
             if(pageName === 'addNote'){
+                await sleep(400);
                 loadContent('views/contactNotes.php')
                 return;
             }
 
             await sleep(900)
-
             loadContent((pageName === 'addUser') ? 'views/viewUsers.php' : 'views/home.php');
         }
         else {
@@ -266,4 +219,29 @@ function attachFilterButtonListener() {
 
 function sleep(ms) {
     return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+function sendAction(action) {
+    fetch(`controllers/contactController.php?action=${encodeURIComponent(action)}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+
+            return response.json();
+        })
+        .then(data => {
+            console.log(data);  // Log the response for debugging
+
+            if (data.status === 'success') {
+                loadContent('views/contactNotes.php');
+                alert(data.message);
+            } else {
+                alert(data.message || 'Unknown error occurred');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('An error occurred');
+        });
 }

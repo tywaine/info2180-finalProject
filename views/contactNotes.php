@@ -26,49 +26,19 @@ else{
 }
 
 $contact = Contact::getContactById($contactId);
-$assignedToUser = User::getUserById($contact->getAssignedTo());
-
 $response = [];
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    if(isset($_POST["comment"])){
-        $comment = filter_input(INPUT_POST, "comment", FILTER_SANITIZE_SPECIAL_CHARS);
+    $comment = htmlspecialchars($_POST['comment'], ENT_QUOTES | ENT_SUBSTITUTE, 'UTF-8');
 
-        if ($contactId && $comment) {
-            Note::addNote($contactId, $comment, $_SESSION['user_id']);
-            $response['status'] = 'success';
-            $response['message'] = 'Note added successfully';
-        }
-        else {
-            $response['status'] = 'error';
-            $response['message'] = 'Failed to add note';
-        }
+    if ($contactId && $comment) {
+        Note::addNote($contactId, $comment, $_SESSION['user_id']);
+        $response['status'] = 'success';
+        $response['message'] = 'Note added successfully';
     }
-    if(isset($_POST["action"])){
-        $action = $_POST["action"];
-
-        if ($action === 'assignToMe') {
-            $userId = $_SESSION['user_id'];
-            if ($contactId) {
-                $success = Contact::updateContact($contactId, $contact->getType(), $userId);
-                if ($success) {
-                    $response['status'] = 'success';
-                    $response['message'] = 'Contact successfully assigned to you';
-                } else {
-                    $response['message'] = 'Failed to assign contact';
-                }
-            }
-        } elseif ($action === 'switchType') {
-            if ($contactId) {
-                $newType = $contact->getTypeOpposite();
-                $success = Contact::updateContact($contactId, $newType, $contact->getAssignedTo());
-                if ($success) {
-                    $response['status'] = 'success';
-                    $response['message'] = 'Contact type switched to ' . $newType;
-                } else {
-                    $response['message'] = 'Failed to switch contact type';
-                }
-            }
-        }
+    else {
+        $response['status'] = 'error';
+        $response['message'] = 'Failed to add note';
     }
 
     header('Content-Type: application/json');
@@ -121,7 +91,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </div>
             <div class="info-item">
                 <strong>Assigned To</strong>
-                <p><?php echo htmlspecialchars($assignedToUser->getFirstName() . ' ' . $assignedToUser->getLastName()); ?></p>
+                <p><?php echo htmlspecialchars(User::getUserById($contact->getAssignedTo())->getFirstName() . ' ' . User::getUserById($contact->getAssignedTo())->getLastName()); ?></p>
             </div>
         </div>
     </div>

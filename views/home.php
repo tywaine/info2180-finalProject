@@ -36,7 +36,7 @@ $contacts = Contact::getContacts();
         <div class=" tableincontainer">
             <div class="filter-section">
                 <span class="name">Filter By:</span>
-                <button class="filter-btn" data-filter="all">All</button>
+                <button id="btnAllFilter" class="filter-btn" data-filter="all">All</button>
                 <button class="filter-btn" data-filter="sales lead">Sales Leads</button>
                 <button class="filter-btn" data-filter="support">Support</button>
                 <button class="filter-btn" data-filter="assigned-to-me">Assigned to me</button>
