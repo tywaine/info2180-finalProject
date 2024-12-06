@@ -27,16 +27,23 @@ if(isset($_GET["action"])){
 
     if ($action === 'assignToMe') {
         $userId = $_SESSION['user_id'];
-        if ($contactId && $userId && $contact) {
-            $success = $contact->update($contact->getType(), $userId);
 
-            if ($success) {
+        if ($contactId && $userId && $contact) {
+            if($contact->getAssignedTo() == $userId){
+                $response['status'] = 'error';
+                $response['message'] = 'Contact is already assigned to you';
+            }
+            else if ($contact->update($contact->getType(), $userId)) {
                 $response['status'] = 'success';
                 $response['message'] = 'Contact successfully assigned to you';
             } else {
                 $response['status'] = 'error';
                 $response['message'] = 'Failed to assign contact';
             }
+        }
+        else{
+            $response['status'] = 'error';
+            $response['message'] = 'Unknown assignToMe error';
         }
     }
     elseif ($action === 'switchType') {
@@ -52,10 +59,14 @@ if(isset($_GET["action"])){
                 $response['message'] = 'Failed to switch contact type';
             }
         }
+        else{
+            $response['status'] = 'error';
+            $response['message'] = 'Unknown switchType error';
+        }
     }
     else{
         $response['status'] = 'error';
-        $response['message'] = 'No Array';
+        $response['message'] = 'Invalid action';
     }
 
     header('Content-Type: application/json');

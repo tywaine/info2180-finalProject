@@ -116,7 +116,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <button type="submit">Add Note</button>
         </form>
     </div>
-    <div id="temporaryMessage" class="message" style="display: none;"></div>
 </div>
 </body>
 </html>

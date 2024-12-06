@@ -39,6 +39,7 @@ if (!isset($_SESSION['user_id'])) {
         </ul>
     </aside>
 
+    <div id="temporaryMessage" class="message" style="display: none;"></div>
     <!-- Main Content -->
     <main class="content" id="mainContent">
         <!-- The Main Content is dynamically shown here -->

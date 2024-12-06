@@ -37,7 +37,7 @@ CREATE TABLE IF NOT EXISTS Notes (
     created_by INT NOT NULL,
     created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
     FOREIGN KEY (contact_id) REFERENCES Contacts(id) ON DELETE CASCADE,
-    FOREIGN KEY (created_by) REFERENCES Users(id) ON DELETE SET NULL
+    FOREIGN KEY (created_by) REFERENCES Users(id) ON DELETE CASCADE
 );
 
 -- Insert Admin User

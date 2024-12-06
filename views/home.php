@@ -21,7 +21,7 @@ $contacts = Contact::getContacts();
 <body>
 <section id="viewUsers" class="sect">
     <!-- Message container for success or error messages -->
-    <div id="temporaryMessage" class="message" style="display: none;"></div>
+
 
     <div class="tableSection">
 

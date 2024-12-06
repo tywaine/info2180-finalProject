@@ -74,10 +74,6 @@ function loadContent(url) {
                 attachAddUserButtonListener();
             }
 
-            if(url === 'views/addUser.php'){
-                attachAddUserFormListener()
-            }
-
             if(url === 'views/addContact.php'){
                 attachAddContactFormListener()
             }
@@ -129,16 +125,6 @@ function attachAddContactButtonListener() {
 
 }
 
-function attachAddUserFormListener() {
-    const form = document.querySelector('#userForm');
-    if (form) {
-        form.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            await handleFormSubmit(form, 'addUser');
-        });
-    }
-}
-
 function attachAddContactFormListener() {
     const form = document.querySelector('#contactForm');
     if (form) {
@@ -161,32 +147,15 @@ async function handleFormSubmit(form, pageName) {
         const result = await response.json();
 
         if (response.ok && result.status === 'success') {
-            $('#temporaryMessage')
-                .removeClass('error')
-                .addClass('success')
-                .text(result.message)
-                .fadeIn()
-                .delay(400)
-                .fadeOut();
-
             if(pageName === 'addNote'){
-                await sleep(400);
                 loadContent('views/contactNotes.php')
-                return;
             }
+            else{
+                loadContent((pageName === 'addUser') ? 'views/viewUsers.php' : 'views/home.php');
+            }
+        }
 
-            await sleep(900)
-            loadContent((pageName === 'addUser') ? 'views/viewUsers.php' : 'views/home.php');
-        }
-        else {
-            $('#temporaryMessage')
-                .removeClass('success')
-                .addClass('error')
-                .text(result.message)
-                .fadeIn()
-                .delay(1500)
-                .fadeOut();
-        }
+        showMessage(result)
     } catch (error) {
         console.error('Error submitting form:', error);
     }
@@ -217,10 +186,6 @@ function attachFilterButtonListener() {
     });
 }
 
-function sleep(ms) {
-    return new Promise(resolve => setTimeout(resolve, ms));
-}
-
 function sendAction(action) {
     fetch(`controllers/contactController.php?action=${encodeURIComponent(action)}`)
         .then(response => {
@@ -231,17 +196,37 @@ function sendAction(action) {
             return response.json();
         })
         .then(data => {
-            console.log(data);  // Log the response for debugging
+            console.log(data);
 
             if (data.status === 'success') {
                 loadContent('views/contactNotes.php');
-                alert(data.message);
-            } else {
-                alert(data.message || 'Unknown error occurred');
             }
+
+            showMessage(data)
         })
         .catch(error => {
             console.error('Error:', error);
             alert('An error occurred');
         });
+}
+
+function showMessage(result){
+    if(result.status === 'success'){
+        $('#temporaryMessage')
+            .removeClass('error')
+            .addClass('success')
+            .text(result.message)
+            .fadeIn()
+            .delay(2000)
+            .fadeOut();
+    }
+    else{
+        $('#temporaryMessage')
+            .removeClass('success')
+            .addClass('error')
+            .text(result.message)
+            .fadeIn()
+            .delay(2000)
+            .fadeOut();
+    }
 }

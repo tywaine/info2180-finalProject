@@ -1,5 +1,4 @@
 <?php
-
 // Database connection settings (Change this to match your credentials
 $db_server = "localhost";
 $db_username = "root";
