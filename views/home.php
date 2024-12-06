@@ -1,5 +1,4 @@
 <?php
-session_start();
 include("../config/database.php");
 include_once '../models/contact.php';
 use app\models\Contact;
@@ -68,7 +67,7 @@ $contacts = Contact::getContacts();
                                     <span class="sales-lead-btn">SALES LEAD</span>
                                 <?php endif; ?>
                             </td>
-                            <td><a href="javascript:void(0)" class="view-link" data-target="views/contactNotes.php?id=<?php echo htmlspecialchars($contact->getId()); ?>">View</a></td>
+                            <td><a class="view-link" data-target="views/contactNotes.php?id=<?php echo htmlspecialchars($contact->getId()); ?>">View</a></td>
                         </tr>
                     <?php endforeach; ?>
                 <?php else: ?>

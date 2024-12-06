@@ -75,6 +75,7 @@ class Note{
     public static function loadNotes() {
         $query = "SELECT * FROM Notes";
         $result = mysqli_query(self::$conn, $query);
+        self::clearNotes();
 
         if (mysqli_num_rows($result) > 0) {
             $fetchedNotes = mysqli_fetch_all($result, MYSQLI_ASSOC);

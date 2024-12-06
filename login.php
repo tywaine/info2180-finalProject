@@ -7,6 +7,10 @@ include_once 'models/user.php';
 use app\models\User;
 User::setConnection($conn);
 
+session_unset();
+session_destroy();
+session_start();
+
 $error_message = '';
 if($_SERVER["REQUEST_METHOD"] == "POST"){
     $email = filter_input(INPUT_POST, "email", FILTER_VALIDATE_EMAIL);

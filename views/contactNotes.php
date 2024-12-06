@@ -26,6 +26,7 @@ else{
 }
 
 $contact = Contact::getContactById($contactId);
+$createdByUser = User::getUserById($contact->getCreatedBy());
 $response = [];
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -60,7 +61,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <div class="note-header">
         <div class="header-info">
             <h1><?php echo htmlspecialchars($contact->getTitle() . '. ' . $contact->getFirstName() . ' ' . $contact->getLastName()); ?></h1>
-            <p class="date-info">Created on <?php echo htmlspecialchars($contact->getCreatedAtFormatted() . ' by ' . User::getUserById($contact->getCreatedBy())->getFirstName() . ' ' . User::getUserById($contact->getCreatedBy())->getLastName()); ?></p>
+            <p class="date-info">Created on <?php echo htmlspecialchars($contact->getCreatedAtFormatted() . ' by ' . $createdByUser->getFirstName() . ' ' . $createdByUser->getLastName()); ?></p>
             <p class="date-info">Updated on <?php echo htmlspecialchars($contact->getUpdatedAtFormatted()); ?></p>
         </div>
         <div class="header-buttons">

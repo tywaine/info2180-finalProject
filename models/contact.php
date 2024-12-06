@@ -137,9 +137,14 @@ class Contact {
         return null;
     }
 
+    private static function clearContacts() {
+        self::$contacts = [];
+    }
+
     public static function loadContacts() {
         $query = "SELECT * FROM Contacts";
         $result = mysqli_query(self::$conn, $query);
+        self::clearContacts();
 
         if (mysqli_num_rows($result) > 0) {
             $fetchedContacts = mysqli_fetch_all($result, MYSQLI_ASSOC);

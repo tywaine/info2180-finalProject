@@ -2,10 +2,9 @@
 session_start();
 
 if (!isset($_SESSION['user_id'])) {
-    header("Location: login.php");
+    header("Location: views/logout.php");
     exit();
 }
-
 ?>
 
 <!doctype html>
@@ -28,14 +27,14 @@ if (!isset($_SESSION['user_id'])) {
     </header>
     <aside class="sidebar">
         <ul>
-            <li><a href="javascript:void(0)" class="sidebar-link" data-target="views/home.php"><span class="material-symbols-outlined">home</span>Home</a></li>
-            <li><a href="javascript:void(0)" class="sidebar-link" data-target="views/newContact.php"><span class="material-symbols-outlined">account_circle</span>New Contact</a></li>
+            <li><a class="sidebar-link" data-target="views/home.php"><span class="material-symbols-outlined">home</span>Home</a></li>
+            <li><a class="sidebar-link" data-target="views/newContact.php"><span class="material-symbols-outlined">account_circle</span>New Contact</a></li>
             <?php if ($_SESSION['role'] === 'Admin') { ?>
                 <!-- Only show the "Users" link for an Admin role -->
-                <li><a href="javascript:void(0)" class="sidebar-link" data-target="views/viewUsers.php"><span class="material-symbols-outlined">group</span>Users</a></li>
+                <li><a class="sidebar-link" data-target="views/viewUsers.php"><span class="material-symbols-outlined">group</span>Users</a></li>
             <?php } ?>
             <hr>
-            <li><a href="javascript:void(0)" class="sidebar-link" data-target="views/logout.php"><span class="material-symbols-outlined">login</span>Logout</a></li>
+            <li><a class="sidebar-link" data-target="views/logout.php"><span class="material-symbols-outlined">login</span>Logout</a></li>
         </ul>
     </aside>
 

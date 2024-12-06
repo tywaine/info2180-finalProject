@@ -101,21 +101,37 @@ class User{
         return self::$users;
     }
 
-    public static function getUserById($id) {
-        if (isset(self::$users[$id])) {
-            return self::$users[$id];
+    public static function getUserById($id): ?User {
+        $query = "SELECT * FROM users WHERE id = ?";
+        $stmt = mysqli_prepare(self::$conn, $query);
+        mysqli_stmt_bind_param($stmt, 'i', $id);
+        mysqli_stmt_execute($stmt);
+
+        $result = mysqli_stmt_get_result($stmt);
+
+        if(mysqli_num_rows($result) > 0) {
+            $user = mysqli_fetch_assoc($result);
+
+            return new User(
+                $user['id'],
+                $user['firstname'],
+                $user['lastname'],
+                $user['email'],
+                $user['role'],
+                $user['created_at']
+            );
         }
 
         return null;
     }
 
-    public static function loadUsers() {
+    public static function loadUsers():void {
         $query = "SELECT * FROM users";
         $result = mysqli_query(self::$conn, $query);
+        self::clearUsers();
 
         if (mysqli_num_rows($result) > 0) {
             $fetchedUsers = mysqli_fetch_all($result, MYSQLI_ASSOC);
-            self::clearUsers();
 
             foreach ($fetchedUsers as $user) {
                 new User(
@@ -131,7 +147,7 @@ class User{
     }
 
     public static function isValidCredentials($email, $password) {
-        $query = "SELECT * FROM users WHERE email = ?";
+        $query = "SELECT * FROM Users WHERE email = ?";
 
         $stmt = mysqli_prepare(self::$conn, $query);
         mysqli_stmt_bind_param($stmt, 's', $email);
