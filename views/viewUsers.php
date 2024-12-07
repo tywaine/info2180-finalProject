@@ -26,7 +26,6 @@ $users = User::getUsers();
 
         <div class="tableHeading">
             <h1>Users</h1>
-            <!-- Add event listener for button click -->
             <button class="addbtn" id="addUserButton">
                 <span class="material-symbols-outlined">add</span> Add User
             </button>

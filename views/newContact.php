@@ -47,7 +47,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
     else {
         $response['status'] = 'error';
-        $response['message'] = 'All fields are required.';
+        $response['message'] = 'Unknown Error occurred.';
     }
 
     // Return JSON response

@@ -15,13 +15,9 @@ $contacts = Contact::getContacts();
     <title>Home</title>
     <link rel="stylesheet" href="assets/css/home.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Symbols+Outlined" />
-    <!-- insert icons here -->
 </head>
 <body>
 <section id="viewUsers" class="sect">
-    <!-- Message container for success or error messages -->
-
-
     <div class="tableSection">
 
         <div class="tableHeading">

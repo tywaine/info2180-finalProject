@@ -41,7 +41,7 @@ CREATE TABLE IF NOT EXISTS Notes (
 );
 
 -- Insert Admin User
--- The password is hashed ('password123'). Use password_verify() for validation during login.
+-- The password is hashed ('password123').
 INSERT INTO Users (firstname, lastname, password, email, role)
 VALUES (
     'Admin',
