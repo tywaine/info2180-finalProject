@@ -7,9 +7,11 @@ include_once 'models/user.php';
 use app\models\User;
 User::setConnection($conn);
 
-session_unset();
-session_destroy();
-session_start();
+if (!isset($_SESSION['user_id'])) {
+    session_unset();
+    session_destroy();
+    session_start();
+}
 
 $error_message = '';
 if($_SERVER["REQUEST_METHOD"] == "POST"){
